@@ -1,9 +1,23 @@
 # spaceship-alex
 
-Your task is to prototype a payload planning system for a space mission.
-A lot of equipment needs to be transported in the spaceship for this mission, but, as you can imagine, there are severe weight constraints, so it is only possible to take a certain amount of the most important equipment. This is where your planning system comes in: your system will enable mission planners to prioritize and plan the equipment to be taken within mission weight limits.
+Your task is to prototype a payload planning system for an imaginary space mission to Mars.
 
-- Every Item has a name, description, and weight.
+
+A lot of equipment needs to be transported from Earth to Mars for this mission, but, as you can imagine, there are severe weight constraints, so it is only possible to take a certain amount of the most important equipment . This is where your planning system comes in: your system will enable mission planners to prioritize and plan the equipment to be taken within mission weight limits.
+
+ 
+Your goal is not to produce a perfect, production-ready system (e.g. no need for test coverage and so on), but to build a prototype which demonstrates the concept (and showcases your knowledge and experience, of course).
+
+Every Item has a description, weight, and linked category.
+Every Category has a name and priority (ranging from 1 to 5, where 1 is the highest priority).
+Provide a way to be able to dynamically add, edit and delete both Items and Categories.
+Provide summary statistics which will break down the weight of all items per category to be loaded for the mission.
+Your system should be architected as:
+A back end service, which exposes a service API, and
+The database can be simple, e.g. SQLite or similar.
+Provide clear instructions on how to run the code (e.g. provide a Docker image).
+Preferably, provide initial data for the software. 
+ 
 
 ## Architecture
 
