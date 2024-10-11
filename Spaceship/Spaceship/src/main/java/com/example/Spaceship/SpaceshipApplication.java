@@ -25,7 +25,7 @@ public class SpaceshipApplication {
                   1L,
                   "Maquinaria",
                    150.50,
-                    1
+                    "Equipment"
 		    )
 		  );
     }

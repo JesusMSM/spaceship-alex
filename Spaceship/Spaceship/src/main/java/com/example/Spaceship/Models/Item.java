@@ -8,18 +8,18 @@ public class Item{
     private Long id;
     private String name;
     private Double peso;
-    private Integer uds;
+    private String description;
     
     //Constructor sin parámetros necesario para JPA
     public Item() {
     }
 
     //Constructor con parámetros completo
-    public Item(Long id, String name, Double peso, Integer uds) {
+    public Item(Long id, String name, Double peso, String description) {
         this.id = id;
         this.name = name;
         this.peso = peso;
-        this.uds = uds;
+        this.description = description;
     }
 
     //Getters y Setters
@@ -47,12 +47,12 @@ public class Item{
         this.peso = peso;
     }
 
-    public Integer getUds() {
-        return uds;
+    public String getDescription() {
+        return description;
     }
 
-    public void setUds(Integer uds) {
-        this.uds = uds;
+    public void setDescrption(String description) {
+        this.description = description;
     }
     //Sobreescribe el método toString para mostrar la información del objeto Item
     //en un formato legible, útil para depuración o para mostrar información
@@ -63,7 +63,7 @@ public class Item{
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", peso=" + peso +
-                ", uds=" + uds +
+                ", description=" + description +
                 '}';
     }
 }
