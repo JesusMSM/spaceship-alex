@@ -1,4 +1,4 @@
-package com.example.Spaceship.Models;
+package com.example.Spaceship.models;
 
 
 public class Item{

@@ -1,4 +1,4 @@
-package com.example.Spaceship.Repositories;
+package com.example.Spaceship.repositories;
 
 public class ItemRepository {
 
