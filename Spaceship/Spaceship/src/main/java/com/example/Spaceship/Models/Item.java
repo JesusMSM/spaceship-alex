@@ -7,7 +7,7 @@ public class Item{
 
     private Long id;
     private String name;
-    private Double peso;
+    private Double weight;
     private String description;
     
     //Constructor sin parámetros necesario para JPA
@@ -15,10 +15,10 @@ public class Item{
     }
 
     //Constructor con parámetros completo
-    public Item(Long id, String name, Double peso, String description) {
+    public Item(Long id, String name, Double weight, String description) {
         this.id = id;
         this.name = name;
-        this.peso = peso;
+        this.weight = weight;
         this.description = description;
     }
 
@@ -39,12 +39,12 @@ public class Item{
         this.name = name;
     }
 
-    public Double getPeso() {
-        return peso;
+    public Double getweight() {
+        return weight;
     }
 
-    public void setPeso(Double peso) {
-        this.peso = peso;
+    public void setweight(Double weight) {
+        this.weight = weight;
     }
 
     public String getDescription() {
@@ -62,7 +62,7 @@ public class Item{
         return "Item{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", peso=" + peso +
+                ", peso=" + weight +
                 ", description=" + description +
                 '}';
     }
