@@ -1,28 +1,32 @@
 package com.example.Spaceship.models;
 
+//import javax.persistence.*;
 
+//@Entity
 public class Item{
 
-   //Atributos de la clase Item
-
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private Double weight;
     private String description;
+
+   // @ManyToOne
+    //@JoinColumn(name = "category_id")
+    private Category category;
     
-    //Constructor sin parámetros necesario para JPA
     public Item() {
     }
 
-    //Constructor con parámetros completo
-    public Item(Long id, String name, Double weight, String description) {
+    public Item(Long id, String name, Double weight, String description, Category category) {
         this.id = id;
         this.name = name;
         this.weight = weight;
         this.description = description;
+        this.category = category;
     }
 
-    //Getters y Setters
     public Long getId() {
         return id;
     }
@@ -39,11 +43,11 @@ public class Item{
         this.name = name;
     }
 
-    public Double getweight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setweight(Double weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 
@@ -51,9 +55,19 @@ public class Item{
         return description;
     }
 
-    public void setDescrption(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
+
+    public Category getCategory(){
+        return category;
+    }
+
+    public void setCategory(Category category){
+        this.category = category;
+    }
+
+
     //Sobreescribe el método toString para mostrar la información del objeto Item
     //en un formato legible, útil para depuración o para mostrar información
     //en las respuestas HTTP
@@ -62,7 +76,7 @@ public class Item{
         return "Item{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", peso=" + weight +
+                ", weight=" + weight +
                 ", description=" + description +
                 '}';
     }
