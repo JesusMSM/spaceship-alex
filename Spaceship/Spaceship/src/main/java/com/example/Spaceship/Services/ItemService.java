@@ -1,7 +1,7 @@
-package com.example.spaceship.services;
+package com.example.Spaceship.services;
 
-import com.example.spaceship.models.Item;
-import com.example.spaceship.repositories.ItemRepository;
+import com.example.Spaceship.models.Item;
+import com.example.Spaceship.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
