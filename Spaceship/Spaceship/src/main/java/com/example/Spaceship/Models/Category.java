@@ -1,18 +1,24 @@
 package com.example.Spaceship.models;
 
-//import javax.persistence.*;
+
 import java.util.List;
 
-//@Entity
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+@Entity
 public class Category {
 
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String description;
 
-    //@OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category")
     private List<Item> items;
 
     public Category (){
