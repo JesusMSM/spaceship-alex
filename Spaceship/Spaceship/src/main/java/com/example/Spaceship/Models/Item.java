@@ -17,7 +17,7 @@ public class Item{
     private Double weight;
     private String description;
 
-   @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
     
