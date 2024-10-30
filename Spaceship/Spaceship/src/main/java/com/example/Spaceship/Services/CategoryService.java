@@ -12,7 +12,8 @@ import com.example.Spaceship.repositories.CategoryRepository;
 public class CategoryService {
 
 /* Desde el "private final" hasta "this.categoryRepository = categoryRepository;",
-lo que hacemos es configurar nuestro CategoryRepository para inicializarlo en CategoryService
+lo que hacemos es configurar nuestro CategoryRepository para inicializarlo como una constante "final"
+y con su constructor para inyectar las dependencias de CalculatorRepository en CategoryService
 y podamos ejecutar los metodos de esta clase en la base de datos.*/
 
     private final CategoryRepository categoryRepository;

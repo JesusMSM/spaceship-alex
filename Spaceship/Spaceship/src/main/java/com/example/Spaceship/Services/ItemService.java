@@ -39,14 +39,14 @@ public class ItemService {
                     existingItem.setCategory(newItemData.getCategory());
                     return itemRepository.save(existingItem);
                 })
-                .orElseThrow(() -> new IllegalArgumentException("Item con ID " + id + " no encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException("Item with ID " + id + " not found"));
     }
 
     public void deleteItem(Long id) {
         if (itemRepository.existsById(id)) {
             itemRepository.deleteById(id);
         } else {
-            throw new IllegalArgumentException("Item con ID " + id + " no encontrado");
+            throw new IllegalArgumentException("Item with ID " + id + " not found");
         }
     }
 }
