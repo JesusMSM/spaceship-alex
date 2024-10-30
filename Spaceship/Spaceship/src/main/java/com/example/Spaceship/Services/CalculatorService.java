@@ -62,6 +62,33 @@ public class CalculatorService {
         }
     }
 
+    // Método para actualizar un cálculo existente
+public Calculator updateCalculation(Long id, Calculator updatedCalculator) {
+    // Verificamos si el cálculo existe
+    if (!calculatorRepository.existsById(id)) {
+        return null;
+    }
+    
+    // Obtenemos el cálculo existente
+    Calculator existingCalculator = calculatorRepository.findById(id).orElse(null);
+    
+    // Actualizamos los valores del cálculo
+    if (existingCalculator != null) {
+        existingCalculator.setOperand1(updatedCalculator.getOperand1());
+        existingCalculator.setOperand2(updatedCalculator.getOperand2());
+        existingCalculator.setOperationType(updatedCalculator.getOperationType());
+        
+        // Volvemos a calcular el resultado y lo actualizamos
+        double result = calculateResult(existingCalculator);
+        existingCalculator.setResult(result);
+        
+        // Guardamos el cálculo actualizado en el repositorio
+        return calculatorRepository.save(existingCalculator);
+    }
+    
+    return null; // En caso de que no se encuentre el cálculo
+}
+
     //Método para eliminar un cálculo por su ID
     public boolean deleteCalculationById(Long id){
         if (calculatorRepository.existsById(id)) {
