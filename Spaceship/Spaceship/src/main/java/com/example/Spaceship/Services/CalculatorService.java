@@ -11,6 +11,8 @@ import com.example.Spaceship.repositories.CalculatorRepository;
 public class CalculatorService {
 
     private final CalculatorRepository calculatorRepository;
+    private static final double WEIGHT_LIMIT_TONS = 150.0; //Límite de peso en toneladas
+    private static final double WEIGHT_LIMIT_KG = WEIGHT_LIMIT_TONS * 1000.0; //Conversion a kg y límite de peso en kg.
 
     //Constructor para inyectar la dependencias de CalculatorRepository
     public CalculatorService(CalculatorRepository calculatorRepository){
@@ -25,6 +27,26 @@ public class CalculatorService {
     // Método para obtener un cálculo por su ID
     public Calculator getCalculationById(Long id) {
         return calculatorRepository.findById(id).orElse(null);
+    }
+
+    // Método para realizar una operación de cálculo con límite de peso
+    public Calculator performCalculationWithWeightLimit(Calculator calculator) {
+        // Verificamos si los operandos están dentro del límite de peso
+        checkWeightLimit(calculator.getOperand1(), calculator.getOperand2());
+        
+        // Calculamos el resultado si el peso es adecuado
+        double result = calculateResult(calculator);
+        calculator.setResult(result);
+        
+        // Guardamos el cálculo en el repositorio
+        return calculatorRepository.save(calculator);
+    }
+
+    // Método para verificar el límite de peso
+    private void checkWeightLimit(double operand1, double operand2) {
+        if (operand1 > WEIGHT_LIMIT_KG || operand2 > WEIGHT_LIMIT_KG) {
+            throw new IllegalArgumentException("The operands exceed the allowed weight limit of " + WEIGHT_LIMIT_TONS + " tonnes");
+        }
     }
 
     //Método para realizar una operación de cálculo utilizando el método calculateResult y guardar el resultado
