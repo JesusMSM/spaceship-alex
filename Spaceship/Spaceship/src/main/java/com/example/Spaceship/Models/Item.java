@@ -1,5 +1,7 @@
 package com.example.Spaceship.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +21,7 @@ public class Item{
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonIgnore // Ignora esta propiedad en la serialización y ayuda a que no haya bucles infinitos en las peticiones.
     private Category category;
     
     public Item() {
