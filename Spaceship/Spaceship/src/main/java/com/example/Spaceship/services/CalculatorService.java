@@ -11,58 +11,58 @@ import com.example.Spaceship.repositories.CalculatorRepository;
 public class CalculatorService {
 
     private final CalculatorRepository calculatorRepository;
-    private static final double WEIGHT_LIMIT_TONS = 150.0; //Límite de peso en toneladas
-    private static final double WEIGHT_LIMIT_KG = WEIGHT_LIMIT_TONS * 1000.0; //Conversion a kg y límite de peso en kg.
+    private static final double WEIGHT_LIMIT_TONS = 150.0; //Weight limit in tonnes
+    private static final double WEIGHT_LIMIT_KG = WEIGHT_LIMIT_TONS * 1000.0; //Conversion to kg and weight limit in kg
 
-    //Constructor para inyectar la dependencias de CalculatorRepository
+    //Constructor for injecting CalculatorRepository dependencies
     public CalculatorService(CalculatorRepository calculatorRepository){
         this.calculatorRepository = calculatorRepository;
     }
 
-    //Método para obtener todos los calculos
+    //Method to obtain all calculations
     public List<Calculator>getAllCalculations(){
         return calculatorRepository.findAll();
     }
 
-    // Método para obtener un cálculo por su ID
+    //Method to obtain a calculation by ID
     public Calculator getCalculationById(Long id) {
         return calculatorRepository.findById(id).orElse(null);
     }
 
-    // Método para realizar una operación de cálculo con límite de peso
+    //Method for performing a calculation operation with a weight limit
     public Calculator performCalculationWithWeightLimit(Calculator calculator) {
-        // Verificamos si los operandos están dentro del límite de peso
+        //Check if the operands are within the weight limit.
         checkWeightLimit(calculator.getOperand1(), calculator.getOperand2());
         
-        // Calculamos el resultado si el peso es adecuado
+        //Calculate the result if the weight is adequate
         double result = calculateResult(calculator);
         calculator.setResult(result);
         
-        // Guardamos el cálculo en el repositorio
+        //Save the calculation in the repository
         return calculatorRepository.save(calculator);
     }
 
-    // Método para verificar el límite de peso
+    //Method for verifying the weight limit
     private void checkWeightLimit(double operand1, double operand2) {
         if (operand1 > WEIGHT_LIMIT_KG || operand2 > WEIGHT_LIMIT_KG) {
             throw new IllegalArgumentException("The operands exceed the allowed weight limit of " + WEIGHT_LIMIT_TONS + " tonnes");
         }
     }
 
-    //Método para realizar una operación de cálculo utilizando el método calculateResult y guardar el resultado
+    //Method for performing a calculation operation using the calculateResult method and saving the result
     public Calculator performCalculation(Calculator calculator) {
         double result = calculateResult(calculator);
         calculator.setResult(result);
         return calculatorRepository.save(calculator);
     }
     
-    // Método privado para calcular el resultado en función del tipo de operación
+    //Private method for calculating the result depending on the type of transaction
     private double calculateResult(Calculator calculator){
         double operand1 = calculator.getOperand1();
         double operand2 = calculator.getOperand2();
         String operationType = calculator.getOperationType();
 
-// switch para calcular el tipo de operacion y lanzar excepciones en caso de que no se pueda dividir o no exista el tipo de operación.
+//switch to calculate the operation type and throw exceptions in case the operation type cannot be split or does not exist
         switch (operationType){
             case "sum" -> {
                 return operand1 + operand2;
@@ -84,34 +84,34 @@ public class CalculatorService {
         }
     }
 
-    // Método para actualizar un cálculo existente
+    //Method for updating an existing calculation
 public Calculator updateCalculation(Long id, Calculator updatedCalculator) {
-    // Verificamos si el cálculo existe
+    //check if the calculation exists
     if (!calculatorRepository.existsById(id)) {
         return null;
     }
     
-    // Obtenemos el cálculo existente
+    //Obtain the existing calculation
     Calculator existingCalculator = calculatorRepository.findById(id).orElse(null);
     
-    // Actualizamos los valores del cálculo
+    //Update the values of the calculation
     if (existingCalculator != null) {
         existingCalculator.setOperand1(updatedCalculator.getOperand1());
         existingCalculator.setOperand2(updatedCalculator.getOperand2());
         existingCalculator.setOperationType(updatedCalculator.getOperationType());
         
-        // Volvemos a calcular el resultado y lo actualizamos
+        //Recalculate the result and update it.
         double result = calculateResult(existingCalculator);
         existingCalculator.setResult(result);
         
-        // Guardamos el cálculo actualizado en el repositorio
+        //Save the updated calculation in the repository
         return calculatorRepository.save(existingCalculator);
     }
     
-    return null; // En caso de que no se encuentre el cálculo
+    return null; //In case the calculation is not found
 }
 
-    //Método para eliminar un cálculo por su ID
+    //Method to delete a calculation by ID
     public boolean deleteCalculationById(Long id){
         if (calculatorRepository.existsById(id)) {
             calculatorRepository.deleteById(id);

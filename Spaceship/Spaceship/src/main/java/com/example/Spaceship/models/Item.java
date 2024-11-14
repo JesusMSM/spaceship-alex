@@ -21,7 +21,7 @@ public class Item{
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @JsonIgnore // Ignora esta propiedad en la serialización y ayuda a que no haya bucles infinitos en las peticiones.
+    @JsonIgnore  // Ignores this property in serialisation and helps to avoid infinite loops in requests.
     private Category category;
     
     public Item() {
@@ -76,9 +76,9 @@ public class Item{
     }
 
 
-    //Sobreescribe el método toString para mostrar la información del objeto Item
-    //en un formato legible, útil para depuración o para mostrar información
-    //en las respuestas HTTP
+    /*Overrides the toString method to display the Item object's information in
+    a readable format, useful for debugging or for displaying information
+    in HTTP responses*/
     @Override
     public String toString() {
         return "Item{" +

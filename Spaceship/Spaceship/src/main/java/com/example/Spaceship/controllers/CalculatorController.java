@@ -1,13 +1,20 @@
 package com.example.Spaceship.controllers;
 
-import com.example.Spaceship.models.Calculator;
-import com.example.Spaceship.services.CalculatorService;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.example.Spaceship.models.Calculator;
+import com.example.Spaceship.services.CalculatorService;
 
 @RestController
 @RequestMapping("/api/calculator")
@@ -19,34 +26,34 @@ public class CalculatorController {
         this.calculatorService = calculatorService;
     }
 
-    // Método para obtener todos los cálculos realizados
+    //Method to obtain all calculations performed
     @GetMapping
     public List<Calculator> getAllCalculations() {
         return calculatorService.getAllCalculations();
     }
 
-    // Método para obtener un cálculo específico por ID
+    //Method to obtain a specific calculation by ID
     @GetMapping("/{id}")
     public ResponseEntity<Calculator> getCalculationById(@PathVariable Long id) {
         Calculator calculation = calculatorService.getCalculationById(id);
         return calculation != null ? new ResponseEntity<>(calculation, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    // Método para crear un nuevo cálculo (por ejemplo, suma, resta, etc.)
+    //Method to create a new calculation (e.g. addition, subtraction, etc.)
     @PostMapping("/calculate")
     public ResponseEntity<Calculator> createCalculation(@RequestBody Calculator calculator) {
         Calculator result = calculatorService.performCalculation(calculator);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-    // Método para actualizar un cálculo existente
+    //Method to update an existing calculation
     @PutMapping("/{id}")
     public ResponseEntity<Calculator> updateCalculation(@PathVariable Long id, @RequestBody Calculator calculatorDetails) {
         Calculator updatedCalculator = calculatorService.updateCalculation(id, calculatorDetails);
         return updatedCalculator != null ? new ResponseEntity<>(updatedCalculator, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    // Método para eliminar un cálculo por ID
+    //Method to delete a calculation by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCalculation(@PathVariable Long id) {
         boolean isDeleted = calculatorService.deleteCalculationById(id);
