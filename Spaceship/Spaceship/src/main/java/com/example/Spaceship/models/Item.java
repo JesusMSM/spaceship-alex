@@ -16,7 +16,7 @@ public class Item{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private Double weight;
+    private Double weight; // Weight in kg
     private String description;
 
     @ManyToOne
@@ -85,7 +85,9 @@ public class Item{
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", weight=" + weight +
-                ", description=" + description +
+                ", description='" + description + '\'' +
+                ", category=" + (category != null ? category.getName() : "No category") +
                 '}';
     }
+    
 }

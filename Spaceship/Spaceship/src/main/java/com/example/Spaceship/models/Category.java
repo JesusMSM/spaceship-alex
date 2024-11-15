@@ -3,6 +3,8 @@ package com.example.Spaceship.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +21,7 @@ public class Category {
     private String description;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnore // Ignores this property in serialisation and helps to avoid infinite loops in requests.
     private List<Item> items;
 
     public Category (){
@@ -61,5 +64,14 @@ public class Category {
 
     public void setItems(List<Item> items){
         this.items = items;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
