@@ -19,6 +19,7 @@ public class Category {
     private Long id;
     private String name;
     private String description;
+    private Long priority;
 
     @OneToMany(mappedBy = "category")
     @JsonIgnore // Ignores this property in serialisation and helps to avoid infinite loops in requests.
@@ -28,10 +29,11 @@ public class Category {
 
     }
 
-    public Category(Long id, String name, String description){
+    public Category(Long id, String name, String description, Long priority){
     this.id = id;
     this.name = name;
     this.description = description;
+    this.priority = priority;
     }
 
     public Long getId(){
@@ -58,6 +60,14 @@ public class Category {
         this.description = description;
     }
 
+    public Long getPriority(){
+        return priority;
+    }
+
+    public void setPriority(Long priority){
+        this.priority = priority;
+    }
+
     public List<Item> getItems(){
         return items;
     }
@@ -72,6 +82,7 @@ public class Category {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", priority=" + priority +
                 '}';
     }
 }
