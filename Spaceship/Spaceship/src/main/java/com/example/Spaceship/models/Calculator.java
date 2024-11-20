@@ -13,7 +13,7 @@ public class Calculator {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //Anotación @Column(nullable = false): Hace que el valor de operationType sea obligatorio, por lo que no se permite null.
+    //Notation @Column(nullable = false): Makes the value of operationType mandatory, so null is not allowed.
     @Column(nullable = false)
     private String operationType;
 
@@ -23,8 +23,8 @@ public class Calculator {
     @Column(nullable = false)
     private double operand2;
 
-    /* "result" no tiene la anotacion @Column(nullable = false) debido a que el resultado se produce al calcular
-    operand1, operand2, y operationType. */
+    /* ‘result’ does not have the @Column(nullable = false) annotation because the result
+    is produced by calculating operand1, operand2, and operationType. */
     private double result;
 
     public Calculator(){

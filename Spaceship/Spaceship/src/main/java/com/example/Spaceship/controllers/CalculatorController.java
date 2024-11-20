@@ -1,13 +1,15 @@
 package com.example.Spaceship.controllers;
 
-import com.example.Spaceship.models.Calculator;
-import com.example.Spaceship.services.CalculatorService;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.example.Spaceship.services.CalculatorService;
 
 @RestController
 @RequestMapping("/api/calculator")
@@ -15,41 +17,33 @@ public class CalculatorController {
 
     private final CalculatorService calculatorService;
 
+    // Constructor to inject CalculatorService
     public CalculatorController(CalculatorService calculatorService) {
         this.calculatorService = calculatorService;
     }
 
-    // Método para obtener todos los cálculos realizados
-    @GetMapping
-    public List<Calculator> getAllCalculations() {
-        return calculatorService.getAllCalculations();
-    }
+    //Endpoint to validate and adjust item weights
+    @PostMapping("/validate")
+    public ResponseEntity<String> validateAndAdjustItems(@RequestBody Map<Long, Integer> itemQuantities) {
+        try {
+            // Call the service's validateAndAdjustItems method
+            String validationMessage = calculatorService.validateAndAdjustItems(itemQuantities);
 
-    // Método para obtener un cálculo específico por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Calculator> getCalculationById(@PathVariable Long id) {
-        Calculator calculation = calculatorService.getCalculationById(id);
-        return calculation != null ? new ResponseEntity<>(calculation, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    // Método para crear un nuevo cálculo (por ejemplo, suma, resta, etc.)
-    @PostMapping("/calculate")
-    public ResponseEntity<Calculator> createCalculation(@RequestBody Calculator calculator) {
-        Calculator result = calculatorService.performCalculation(calculator);
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
-    }
-
-    // Método para actualizar un cálculo existente
-    @PutMapping("/{id}")
-    public ResponseEntity<Calculator> updateCalculation(@PathVariable Long id, @RequestBody Calculator calculatorDetails) {
-        Calculator updatedCalculator = calculatorService.updateCalculation(id, calculatorDetails);
-        return updatedCalculator != null ? new ResponseEntity<>(updatedCalculator, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    // Método para eliminar un cálculo por ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCalculation(@PathVariable Long id) {
-        boolean isDeleted = calculatorService.deleteCalculationById(id);
-        return isDeleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            // If the total weight is within the permitted limit
+            if (validationMessage.contains("within the permitted limit")) {
+                return ResponseEntity.ok(validationMessage);
+            } else {
+                // If adjustments were made or weight still exceeds the limit
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validationMessage);
+            }
+        } catch (IllegalArgumentException e) {
+            // Handle the case where an item ID is not found
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            // Generic error handling
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Unexpected error occurred: " + e.getMessage());
+        }
     }
 }

@@ -11,32 +11,32 @@ import com.example.Spaceship.repositories.CategoryRepository;
 @Service
 public class CategoryService {
 
-/* Desde el "private final" hasta "this.categoryRepository = categoryRepository;",
-lo que hacemos es configurar nuestro CategoryRepository para inicializarlo como una constante "final"
-y con su constructor para inyectar las dependencias de CalculatorRepository en CategoryService
-y podamos ejecutar los metodos de esta clase en la base de datos.*/
+/* From the ‘private final’ to ‘this.categoryRepository = categoryRepository;’, what we do is configure our CategoryRepository
+to initialise it as a ‘final’ constant and with its constructor to inject the dependencies of CalculatorRepository
+into CategoryService so that we can execute the methods of this class in the database.*/
 
     private final CategoryRepository categoryRepository;
 
     public CategoryService(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
-// 1. Obtener todas las categorías
+// Get all categories
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
-// 2. Obtener una categoría por su ID
+// Get a category by ID
     public Optional<Category> getCategoryById(Long id) {
         return categoryRepository.findById(id);
     }
-// 3. Guardar o actualizar una categoría
+//Save or update a category
     public Category saveCategory(Category category) {
         return categoryRepository.save(category);
     }
-// 4. Eliminar una categoría por su ID utilizando una estructura de control boolean
+//Delete a category by ID using a boolean control structure
 
-/* deleteCategoryById ahora devuelve un boolean para indicar si la categoría fue encontrada
-y eliminada (true), o si no existía (false). Esto facilita la comprobación del éxito de la operación.*/
+/* deleteCategoryById now returns a boolean to indicate whether the category was found and deleted (true),
+or if it did not exist (false).and deleted (true), or if it did not exist (false). This makes it easier
+to check the success of the operation.*/
 
     public boolean deleteCategoryById(Long id) {
         if (categoryRepository.existsById(id)) {

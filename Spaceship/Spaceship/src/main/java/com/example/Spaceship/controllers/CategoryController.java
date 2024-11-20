@@ -23,19 +23,19 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    // Constructor con inyección de dependencia de CategoryService.
+    //Constructor with CategoryService dependency injection
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
     
-     //Obtener todas las categorías.
+     //Get all categories
     @GetMapping
     public List<Category> getAllCategories() {
         return categoryService.getAllCategories();
     }
 
-     // Obtener una categoría específica por ID.
+     // Get a specific category by ID
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
         Optional<Category> category = categoryService.getCategoryById(id);
@@ -44,14 +44,14 @@ public class CategoryController {
     }
 
     
-     //Crear una nueva categoría.
+     //Create a new category
     @PostMapping
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
         Category savedCategory = categoryService.saveCategory(category);
         return new ResponseEntity<>(savedCategory, HttpStatus.CREATED);
     }
 
-     //Actualizar una categoría existente.
+     //Update an existing category
 
     @PutMapping("/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category categoryDetails) {
@@ -59,7 +59,7 @@ public class CategoryController {
 
         if (categoryData.isPresent()) {
             Category category = categoryData.get();
-            category.setName(categoryDetails.getName()); // Actualización de nombre (puedes agregar más campos si es necesario)
+            category.setName(categoryDetails.getName()); // Name update (you can add more fields if necessary)
             Category updatedCategory = categoryService.saveCategory(category);
             return new ResponseEntity<>(updatedCategory, HttpStatus.OK);
         } else {
@@ -67,7 +67,7 @@ public class CategoryController {
         }
     }
 
-     //Eliminar una categoría por su ID.
+     //Delete a category by ID
     
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteCategory(@PathVariable Long id) {
