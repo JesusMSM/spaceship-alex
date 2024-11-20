@@ -1,6 +1,7 @@
 package com.example.Spaceship.services;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -15,106 +16,102 @@ public class CalculatorService {
 
     private final ItemRepository itemRepository;
 
-    private static final double WEIGHT_LIMIT_TONS = 150.0; //Weight limit in tonnes
-    private static final double WEIGHT_LIMIT_KG = WEIGHT_LIMIT_TONS * 1000.0; //Conversion to kg and weight limit in kg
+    // Constants for weight limits
+    public static final double WEIGHT_LIMIT_TONS = 150.0; // Maximum weight in tons
+    
+    // Dynamic weight limit (no longer a static final constant)
+    private double weightLimitKg;
 
-    //Constructor for injecting dependencies
+    // Constructor that initializes the repository and the default weight limit
     public CalculatorService(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
+        this.weightLimitKg = WEIGHT_LIMIT_TONS * 1000.0; // Initialize with the default value
     }
 
-    //Method for calculating the total weight of the items
-    private double calculateTotalWeight(Map<Long, Integer> itemQuantities) {
+    // Method to change the weight limit if necessary
+    public void setWeightLimitKg(double weightLimitKg) {
+        this.weightLimitKg = weightLimitKg;
+    }
+
+    public double getWeightLimitKg() {
+        return weightLimitKg;
+    }
+
+    // Calculate the total weight of items based on their quantities
+    public double calculateTotalWeight(Map<Long, Integer> itemQuantities) {
         double totalWeight = 0.0;
 
         for (Map.Entry<Long, Integer> entry : itemQuantities.entrySet()) {
             Long itemId = entry.getKey();
             Integer quantity = entry.getValue();
 
-            // Method to obtain item by ID
-            Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new IllegalArgumentException("Item with ID " + itemId + " not found"));
+            Item item = itemRepository.findById(itemId).orElse(null);
 
-            // Calculate the total weight
+            if (item == null) {
+                System.out.println("Item with ID " + itemId + " not found. Skipping.");
+                continue;
+            }
+
             totalWeight += item.getWeight() * quantity;
         }
 
         return totalWeight;
     }
 
-    // Method to sort items by category priority
-    private List<Item> sortItemsByPriority(Map<Long, Integer> itemQuantities) {
+    // Adjust item quantities to fit within the weight limit
+    public Map<Long, Integer> adjustItemsToFitWeightLimit(Map<Long, Integer> itemQuantities) {
         List<Item> items = new ArrayList<>();
-
-        // Get the list of items from Map
-        for (Long itemId : itemQuantities.keySet()) {
-            Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new IllegalArgumentException("Item with ID " + itemId + " not found"));
-            items.add(item);
-    }
-
-        // Sort the list of items by category priority using Comparator
-        items.sort(new Comparator<Item>() {
-
-            @Override
-            public int compare(Item item1, Item item2) {
-                return Long.compare(item1.getCategory().getPriority(), item2.getCategory().getPriority());
+    
+        // Step 1: Retrieve and add existing items
+        for (Map.Entry<Long, Integer> entry : itemQuantities.entrySet()) {
+            Long itemId = entry.getKey();
+            Item item = itemRepository.findById(itemId).orElse(null);
+    
+            if (item != null) {
+                items.add(item);
             }
-        });
-        return items;
+        }
+    
+        // Step 2: Sort items by priority
+        items.sort(Comparator.comparing(item -> item.getCategory().getPriority()));
+        Collections.reverse(items);
 
+        // Step 3: Adjust quantities to fit the weight limit
+        for (Item item : items) {
+            Long itemId = item.getId();
+            int quantity = itemQuantities.get(itemId);
+
+    
+            // Reduce the quantity of the item until the total weight is within the limit
+            while (calculateTotalWeight(itemQuantities) > weightLimitKg && quantity > 0) {
+                quantity--;
+                itemQuantities.put(itemId, quantity); // Update the quantity.
+            }
+    
+            // If the total weight is within the limit, exit the loop
+            if (calculateTotalWeight(itemQuantities) <= weightLimitKg) {
+                break;
+            }
+        }
+    
+        return itemQuantities;
     }
 
-    // Method to validate items and handle weight exceedance
-    public String validateItems(Map<Long, Integer> itemQuantities) {
-        // Calculate the total weight of the items
+    // Validate total weight and adjust items if necessary
+    public String validateAndAdjustItems(Map<Long, Integer> itemQuantities) {
         double totalWeight = calculateTotalWeight(itemQuantities);
 
-        // If the total weight is within the allowed limit, return a success message
-        if (totalWeight <= WEIGHT_LIMIT_KG) {
+        if (totalWeight <= weightLimitKg) {
             return "The total weight is valid and within the permitted limit.";
         }
 
-        // Build the initial response message indicating weight exceedance
-        StringBuilder response = new StringBuilder();
-        response.append("Weight exceeds the allowed limit of ").append(WEIGHT_LIMIT_TONS).append(" tonnes.");
+        Map<Long, Integer> adjustedQuantities = adjustItemsToFitWeightLimit(itemQuantities);
+        double newTotalWeight = calculateTotalWeight(adjustedQuantities);
 
-        // Get items sorted by category priority
-        List<Item> sortedItems = sortItemsByPriority(itemQuantities);
-        response.append("Here are the items sorted by priority:");
-
-        // Display each item's details: name, priority, and weight
-        for (Item item : sortedItems) {
-            response.append("Item: ").append(item.getName())
-                    .append(", Category Priority: ").append(item.getCategory().getPriority())
-                    .append(", Weight per Unit: ").append(item.getWeight()).append(" kg");
-        }
-
-        response.append("Please remove items according to their priority to fit within the weight limit.");
-
-        // Simulate the removal of items until the total weight is within the limit
-        for (Item item : sortedItems) {
-            Long itemId = item.getId();
-            int quantity = itemQuantities.get(itemId);
-            
-            // Keep removing items one by one as long as the weight exceeds the limit
-            while (quantity > 0 && calculateTotalWeight(itemQuantities) > WEIGHT_LIMIT_KG) {
-                quantity--; // Decrease the quantity of the current item
-                itemQuantities.put(itemId, quantity); // Update the quantity in the map
-            }
-        }
-
-        // Recalculate the total weight after adjustments
-        double newTotalWeight = calculateTotalWeight(itemQuantities);
-        
-        // Check if the adjusted weight is now within the limit
-        if (newTotalWeight <= WEIGHT_LIMIT_KG) {
-            response.append("Items adjusted. The new total weight is within the allowed limit: ")
-                    .append(newTotalWeight).append(" kg.");
+        if (newTotalWeight <= weightLimitKg) {
+            return "Items have been adjusted. The new total weight is: " + newTotalWeight + " kg.";
         } else {
-            response.append("Even after adjustments, the weight still exceeds the limit. Further action required.");
+            return "Even after adjustments, the total weight exceeds the limit. Further action is required.";
         }
-
-        return response.toString();
     }
 }

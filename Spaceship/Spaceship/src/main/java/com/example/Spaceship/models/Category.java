@@ -36,6 +36,11 @@ public class Category {
     this.priority = priority;
     }
 
+      // Constructor with only the name
+        public Category(String name) {
+        this.name = name;
+    }
+
     public Long getId(){
         return id;
     }

@@ -16,32 +16,32 @@ import com.example.Spaceship.services.CalculatorService;
 public class CalculatorController {
 
     private final CalculatorService calculatorService;
-    
+
     // Constructor to inject CalculatorService
     public CalculatorController(CalculatorService calculatorService) {
         this.calculatorService = calculatorService;
     }
 
-    //Method to validate
+    //Endpoint to validate and adjust item weights
     @PostMapping("/validate")
-    public ResponseEntity<String> validateItems(@RequestBody Map<Long, Integer> itemQuantities) {
+    public ResponseEntity<String> validateAndAdjustItems(@RequestBody Map<Long, Integer> itemQuantities) {
         try {
-            // Call the service's validateItems method to get the result.
-            String validationMessage = calculatorService.validateItems(itemQuantities);
+            // Call the service's validateAndAdjustItems method
+            String validationMessage = calculatorService.validateAndAdjustItems(itemQuantities);
 
-            // If the message indicates that the weight is valid, it returns a code 200 (OK).
+            // If the total weight is within the permitted limit
             if (validationMessage.contains("within the permitted limit")) {
                 return ResponseEntity.ok(validationMessage);
             } else {
-                // If the weight exceeds the limit, a code 400 (Bad Request) is returned.
+                // If adjustments were made or weight still exceeds the limit
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validationMessage);
             }
         } catch (IllegalArgumentException e) {
-            // If there is an item not found, it is handled with a 404 (Not Found) code.
+            // Handle the case where an item ID is not found
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Error: " + e.getMessage());
         } catch (Exception e) {
-            // Generic exception handling for unexpected errors.
+            // Generic error handling
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Unexpected error occurred: " + e.getMessage());
         }
