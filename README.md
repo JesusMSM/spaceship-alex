@@ -1,8 +1,8 @@
 # 🚀 Spaceship
 
-**Spaceship** is a backend-focused project built with **Spring Boot**. The project demonstrates CRUD operations, database integration, RESTful API creation, and robust business logic, serving as a solid example of backend development practices.
+**Spaceship** is a backend-focused project built with **Spring Boot**. The project demonstrates CRUD operations, database integration, RESTful API creation, and robust business logic. It serves as a solid example of backend development practices.
 
-This project includes functionalities such as calculating the total weight of items and, in case the weight exceeds the set limit, prioritizing items based on their category until the weight is within the limit.
+This **project** includes functionalities such as calculating the total weight of the items and in case the weight exceeds the established limit, it prioritises the items according to their category until the weight is within the limit.
 
 ---
 
@@ -23,9 +23,9 @@ This project includes functionalities such as calculating the total weight of it
 ## 📋 Features
 
 - Backend setup using **Spring Boot**.
-- Entity and relationship management for `Item` and `Category`.
+- Entity and relationship management for `Item`, `Category` and `Calculator`. 
 - RESTful APIs for CRUD (Create, Read, Update, Delete) operations.
-- Weight calculation logic with prioritization when exceeding limits.
+- Weight calculation logic with prioritisation according to item and its category when exceeding the limits.
 - Integration with **PostgreSQL** for database management.
 - Dockerized application for easy deployment.
 - Unit testing with **JUnit**, **Mockito**, and **Spring Boot Test**.
@@ -39,7 +39,7 @@ This project includes functionalities such as calculating the total weight of it
 
 Run the following commands to clone the repository and navigate to the project directory:
 
-```bash
+```
 git clone https://github.com/JesusMSM/spaceship-alex.git
 cd spaceship-alex
 ```
@@ -78,7 +78,7 @@ docker build -t spaceship-backend .
 ```
 docker run -p 8080:8080 --name spaceship-container spaceship-backend
 ```
-Note: Make sure Docker is installed and running before executing these commands.
+*Note*: Make sure Docker is installed and running before executing these commands.
 
 ### 4. Project Structure 🗂️
 
@@ -87,22 +87,29 @@ src/
 ├── main/
 │   ├── java/com/example/spaceship/
 │   │   ├── entity/
-│   │   │   ├── Item.java               # Entity class representing the Item table
-│   │   │   └── Category.java           # Entity class representing the Category table
+│   │   │   ├── Calculator.java            # Entity class representing the Calculator table
+│   │   │   └── Category.java              # Entity class representing the Category table
+│   │   │   └── Item.java                  # Entity class representing the Item table
 │   │   ├── controller/
 │   │   │   └── CalculatorController.java  # REST controller for weight calculations
+│   │   │   └── CategoryController.java    # REST controller handling API endpoints for Category operations
+│   │   │   └── ItemController.java        # REST controller handling API endpoints for Item operations
 │   │   ├── repository/
-│   │   │   ├── ItemRepository.java     # JPA repository interface for Item operations
-│   │   │   └── CategoryRepository.java # JPA repository interface for Category operations
+│   │   │   ├── CalculatorRepository.java  # JPA repository interface for Calculator operations
+│   │   │   └── CategoryRepository.java    # JPA repository interface for Category operations
+│   │   │   └── ItemRepository.java        # JPA repository interface for Item operations
 │   │   ├── service/
-│   │   │   └── CalculatorService.java  # Service class containing weight calculation logic
-│   │   └── SpaceshipApplication.java   # Main class to bootstrap the Spring Boot application
+│   │   │   └── CalculatorService.java    # Service class containing weight calculation logic
+│   │   │   └── CategoryrService.java     # Service class containing Category business logic
+│   │   │   └── ItemService.java          # Service class containing Item business logic
+│   │   └── SpaceshipApplication.java     # Main class to bootstrap the Spring Boot application
 │   └── resources/
-│       ├── application.properties      # Database and application configuration
+│       ├── application.properties        # Database and application configuration
 └── test/
     ├── java/com/example/spaceship/
-    │   ├── DemoApplicationTest.java    # Unit tests for the application startup
-    │   └── CalculatorServiceTest.java  # Unit tests for the CalculatorService logic
+    │   ├── service/
+    │   │   └── CalculatorServiceTest.java   # Unit tests for the CalculatorService logic
+    │   └── SpaceshipApplicationTest.java    # Unit tests for the application startup
 
 ```
 
