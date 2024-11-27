@@ -2,7 +2,7 @@
 
 **Spaceship** is a backend-focused project built with **Spring Boot**. The project demonstrates CRUD operations, database integration, RESTful API creation, and robust business logic. It serves as a solid example of backend development practices.
 
-This **project** includes functionalities such as calculating the total weight of the items and in case the weight exceeds the set limit, it prioritises the items according to their category until the weight is within the limit. All these **functions** *allow the spacecraft to achieve the minimum requirements to be accessible for launch and to be able to execute the space mission*. 
+This **project** demonstrates functionalities such as calculating the total weight of items, and when the weight exceeds the set limit, prioritizing items according to their category until the weight meets the limit. These **features** ensure that the ***spacecraft*** *fulfills the minimum requirements for launch readiness and mission success*.
 
 ---
 
@@ -49,7 +49,7 @@ cd spaceship-alex
 * Ensure PostgreSQL is installed and running. Then, configure the database as follows:
 
 1. Create a database named `spaceship_db`.
-2. Update the credentials in the `application.properties file`:
+2. Update the credentials in the `application.properties`:
 
 ```
 spring.datasource.url=jdbc:postgresql://localhost:5432/spaceship_db
@@ -62,14 +62,14 @@ spring.jpa.properties.hibernate.format_sql=true
 
 ### 3. Run the project ▶️
 
-* Locally
+#### Locally
 1. Open the project in VS Code or your preferred IDE.
 2. Start the application using the following command:
 ```
 mvn spring-boot:run
 ```
 
-* With Docker 🐳
+#### With Docker 🐳
 1. Build the Docker image:
 ```
 docker build -t spaceship-backend .
@@ -78,7 +78,7 @@ docker build -t spaceship-backend .
 ```
 docker run -p 8080:8080 --name spaceship-container spaceship-backend
 ```
-*Note*: Make sure Docker is installed and running before executing these commands.
+***Note***: *Make sure Docker is installed and running before executing these commands*.
 
 ### 4. Project Structure 🗂️
 
@@ -88,23 +88,23 @@ src/
 │   ├── java/com/example/spaceship/
 │   │   ├── entity/
 │   │   │   ├── Calculator.java            # Entity class representing the Calculator table
-│   │   │   └── Category.java              # Entity class representing the Category table
+│   │   │   ├── Category.java              # Entity class representing the Category table
 │   │   │   └── Item.java                  # Entity class representing the Item table
 │   │   ├── controller/
-│   │   │   └── CalculatorController.java  # REST controller for weight calculations
-│   │   │   └── CategoryController.java    # REST controller handling API endpoints for Category operations
+│   │   │   ├── CalculatorController.java  # REST controller for weight calculations
+│   │   │   ├── CategoryController.java    # REST controller handling API endpoints for Category operations
 │   │   │   └── ItemController.java        # REST controller handling API endpoints for Item operations
 │   │   ├── repository/
 │   │   │   ├── CalculatorRepository.java  # JPA repository interface for Calculator operations
-│   │   │   └── CategoryRepository.java    # JPA repository interface for Category operations
+│   │   │   ├── CategoryRepository.java    # JPA repository interface for Category operations
 │   │   │   └── ItemRepository.java        # JPA repository interface for Item operations
 │   │   ├── service/
-│   │   │   └── CalculatorService.java     # Service class containing weight calculation logic
-│   │   │   └── CategoryrService.java      # Service class containing Category business logic
+│   │   │   ├── CalculatorService.java     # Service class containing weight calculation logic
+│   │   │   ├── CategoryService.java       # Service class containing Category business logic
 │   │   │   └── ItemService.java           # Service class containing Item business logic
 │   │   └── SpaceshipApplication.java      # Main class to bootstrap the Spring Boot application
 │   └── resources/
-│       ├── application.properties         # Database and application configuration
+│       └── application.properties         # Database and application configuration
 └── test/
     ├── java/com/example/spaceship/
     │   ├── service/
@@ -113,7 +113,7 @@ src/
 
 ```
 
-#### 5. Project Steps 🛠️
+### 5. Project Steps 🛠️
 
 Below is the **To-Do List** of tasks completed during the development of this project:
 
@@ -132,10 +132,15 @@ Below is the **To-Do List** of tasks completed during the development of this pr
 5. **Integrate Database**
    - [x] Configure the `application.properties` file for PostgreSQL connectivity.
 
-6. **Unit Testing**
+6. **Docker Deployment**
+   - [x] Create a Dockerfile to containerize the application.
+   - [x] Build the Docker image.
+   - [x] Run the Docker container for deployment.
+
+7. **Unit Testing**
    - [x] Develop comprehensive unit tests for the `CalculatorService` class using **JUnit**, **Mockito**, and **Spring Boot**:
 
-#### 🧪 6.1 Unit Tests for `CalculatorService`
+#### 🧪 7.1 Unit Tests for `CalculatorService`
 
 1. **Test to Verify That the Total Weight is Correct (Within the Weight Limit)**
    - Ensures the total weight calculated does not exceed the defined weight limit.
@@ -156,16 +161,20 @@ Below is the **To-Do List** of tasks completed during the development of this pr
 
 ---
 
-### 5. Contributions 🙌
+### 6. Contributions 🙌
 
 * Contributions are welcome! If you have ideas or improvements for this project, feel free to open an issue or submit a pull request.
 
 ---
 
-### 6. Contact me 📧
+### 7. Contact me 📧
 
 * **Author**: Alexandro Tellez
 * **Email**: alextellezyanes@gmail.com
 * **LinkedIn**: [Alexandro Tellez](https://www.linkedin.com/in/alex-tellez-y/)
-This project was developed in collaboration with [**Jesús MSM**].((https://github.com/JesusMSM))
+
+This project was developed by Alexandro Tellez with code review provided by [**Jesús MSM**](https://github.com/JesusMSM).
+
 ---
+
+
