@@ -1,45 +1,164 @@
-# spaceship-alex
+# 🚀 Spaceship
 
-Your task is to prototype a payload planning system for an imaginary space mission to Mars.
+**Spaceship** is a backend-focused project built with **Spring Boot**. The project demonstrates CRUD operations, database integration, RESTful API creation, and robust business logic, serving as a solid example of backend development practices.
 
+This project includes functionalities such as calculating the total weight of items and, in case the weight exceeds the set limit, prioritizing items based on their category until the weight is within the limit.
 
-A lot of equipment needs to be transported from Earth to Mars for this mission, but, as you can imagine, there are severe weight constraints, so it is only possible to take a certain amount of the most important equipment . This is where your planning system comes in: your system will enable mission planners to prioritize and plan the equipment to be taken within mission weight limits.
+---
 
- 
-Your goal is not to produce a perfect, production-ready system (e.g. no need for test coverage and so on), but to build a prototype which demonstrates the concept (and showcases your knowledge and experience, of course).
+## 🛠️ Technologies Used
 
-Every Item has a description, weight, and linked category.
-Every Category has a name and priority (ranging from 1 to 5, where 1 is the highest priority).
-Provide a way to be able to dynamically add, edit and delete both Items and Categories.
-Provide summary statistics which will break down the weight of all items per category to be loaded for the mission.
-Your system should be architected as:
-A back end service, which exposes a service API, and
-The database can be simple, e.g. SQLite or similar.
-Provide clear instructions on how to run the code (e.g. provide a Docker image).
-Preferably, provide initial data for the software. 
- 
+- **Java 17**
+- **Spring Boot**
+- **Maven**
+- **PostgreSQL**
+- **JUnit 5**
+- **Mockito**
+- **Spring Boot Test**
+- **Docker**
+- **VS Code**
 
-## Architecture
+---
 
-We will be using the Controllers > Service > Repository pattern:
+## 📋 Features
 
-### Presentation Layer: Controller (@Controller)
+- Backend setup using **Spring Boot**.
+- Entity and relationship management for `Item` and `Category`.
+- RESTful APIs for CRUD (Create, Read, Update, Delete) operations.
+- Weight calculation logic with prioritization when exceeding limits.
+- Integration with **PostgreSQL** for database management.
+- Dockerized application for easy deployment.
+- Unit testing with **JUnit**, **Mockito**, and **Spring Boot Test**.
+- Scalable and modular project structure for future enhancements.
 
-Merely responsible to presenting a business function (provided in Application Service Layer). Hence mostly delegation to App Service, doing data massaging and presentation-related logic.
+---
 
-### Application Service Layer: Application Service (@Service)
+## ⚙️ Project Setup
 
-High level speaking, it represents business use cases. Hence transaction boundary is set on the methods (as each method is a use-case, hence a unit of work). As I am against use of anemic model, real business logic should be in the domain model layer. This layer mostly make use of domain layer to compose of a meaningful use case. Mostly data transformations (depending on your design), and delegations to domain layer artifacts.
+### 1. Clone the Repository 📂
 
-### Domain Layer: Model, Domain Service (@Service), Repository (@Repository) etc
+Run the following commands to clone the repository and navigate to the project directory:
 
-Business logic are in domain models, or Domain Services. Repository are the artifacts to retrieve domain models.
+```bash
+git clone https://github.com/JesusMSM/spaceship-alex.git
+cd spaceship-alex
+```
 
-## Steps
+### 2. Configure the Database 🗄️
 
-- [ ] Step 1: Create a new project and a package called `models`
-- [ ] Step 2: Create a class for the entity `Item` within the package `model`. Define the types of the attributes, constructor and getters/setters.
-- [ ] Step 3: Create a package called `repositories`
-- [ ] Step 4: Create an interface called `ItemRepository`
-- [ ] Step 5: Create a package called `controllers`
-- [ ] Step 6: Create a class called `ItemController`. In this file you will need to define the endpoints that will be needed to create, read, update and delete items. (CRUD).
+* Ensure PostgreSQL is installed and running. Then, configure the database as follows:
+
+1. Create a database named `spaceship_db`.
+2. Update the credentials in the `application.properties file`:
+
+```
+spring.datasource.url=jdbc:postgresql://localhost:5432/spaceship_db
+spring.datasource.username=alext
+spring.datasource.password=**********
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+```
+
+### 3. Run the project ▶️
+
+* Locally
+1. Open the project in VS Code or your preferred IDE.
+2. Start the application using the following command:
+```
+mvn spring-boot:run
+```
+
+* With Docker 🐳
+1. Build the Docker image:
+```
+docker build -t spaceship-backend .
+```
+2. Run the Docker container:
+```
+docker run -p 8080:8080 --name spaceship-container spaceship-backend
+```
+Note: Make sure Docker is installed and running before executing these commands.
+
+### 4. Project Structure 🗂️
+
+```
+src/
+├── main/
+│   ├── java/com/example/spaceship/
+│   │   ├── entity/
+│   │   │   ├── Item.java               # Entity class representing the Item table
+│   │   │   └── Category.java           # Entity class representing the Category table
+│   │   ├── controller/
+│   │   │   └── CalculatorController.java  # REST controller for weight calculations
+│   │   ├── repository/
+│   │   │   ├── ItemRepository.java     # JPA repository interface for Item operations
+│   │   │   └── CategoryRepository.java # JPA repository interface for Category operations
+│   │   ├── service/
+│   │   │   └── CalculatorService.java  # Service class containing weight calculation logic
+│   │   └── SpaceshipApplication.java   # Main class to bootstrap the Spring Boot application
+│   └── resources/
+│       ├── application.properties      # Database and application configuration
+└── test/
+    ├── java/com/example/spaceship/
+    │   ├── DemoApplicationTest.java    # Unit tests for the application startup
+    │   └── CalculatorServiceTest.java  # Unit tests for the CalculatorService logic
+
+```
+
+#### 5. Project Steps 🛠️
+
+Below is the **To-Do List** of tasks completed during the development of this project:
+
+1. **Define Entities**
+   - [x] Create the `Item`, `Category`, and `Calculator` classes to represent the database tables.
+
+2. **Setup Repository**
+   - [x] Build repository interfaces for database operations for each entity.
+
+3. **Implement Service Layer**
+   - [x] Encapsulate the business logic within the service classes.
+
+4. **Design API Endpoints**
+   - [x] Develop RESTful endpoints in their respective controllers.
+
+5. **Integrate Database**
+   - [x] Configure the `application.properties` file for PostgreSQL connectivity.
+
+6. **Unit Testing**
+   - [x] Develop comprehensive unit tests for the `CalculatorService` class using **JUnit**, **Mockito**, and **Spring Boot**:
+
+#### 🧪 6.1 Unit Tests for `CalculatorService`
+
+1. **Test to Verify That the Total Weight is Correct (Within the Weight Limit)**
+   - Ensures the total weight calculated does not exceed the defined weight limit.
+
+2. **Test to Verify That the Total Weight Exceeds the Weight Limit**
+   - Confirms that the method correctly identifies when the total weight exceeds the allowed weight limit.
+
+3. **Test When the Item is Not Found in the Repository**
+   - Verifies that the service handles cases where an item is not found in the repository gracefully by throwing the appropriate exception.
+
+4. **Test to Verify That Items with Lower Priority are Removed if Weight Exceeds the Limit**
+   - Ensures that items with the lowest priority are correctly identified and removed to meet the weight limit while retaining high-priority items.
+
+**Testing Tools and Frameworks**:
+- **JUnit 5**: For defining and running unit tests.
+- **Mockito**: For mocking dependencies such as the `ItemRepository`.
+- **Spring Boot Test**: For integration with Spring Boot’s application context during tests.
+
+---
+
+### 5. Contributions 🙌
+
+* Contributions are welcome! If you have ideas or improvements for this project, feel free to open an issue or submit a pull request.
+
+---
+
+### 6. Contact me 📧
+
+* **Author**: Alexandro Tellez
+* **Email**: alextellezyanes@gmail.com
+* **LinkedIn**: [Alexandro Tellez](https://www.linkedin.com/in/alex-tellez-y/)
+This project was developed in collaboration with [**Jesús MSM**].((https://github.com/JesusMSM))
+---
