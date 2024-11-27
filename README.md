@@ -2,7 +2,7 @@
 
 **Spaceship** is a backend-focused project built with **Spring Boot**. The project demonstrates CRUD operations, database integration, RESTful API creation, and robust business logic. It serves as a solid example of backend development practices.
 
-This **project** includes functionalities such as calculating the total weight of the items and in case the weight exceeds the set limit, it prioritises the items according to their category until the weight is within the limit. All these functions allow the spacecraft to achieve the minimum requirements to be accessible for launch and to be able to execute the space mission. 
+This **project** includes functionalities such as calculating the total weight of the items and in case the weight exceeds the set limit, it prioritises the items according to their category until the weight is within the limit. All these **functions** *allow the spacecraft to achieve the minimum requirements to be accessible for launch and to be able to execute the space mission*. 
 
 ---
 
