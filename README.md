@@ -2,7 +2,7 @@
 
 **Spaceship** is a backend-focused project built with **Spring Boot**. The project demonstrates CRUD operations, database integration, RESTful API creation, and robust business logic. It serves as a solid example of backend development practices.
 
-This **project** includes functionalities such as calculating the total weight of the items and in case the weight exceeds the established limit, it prioritises the items according to their category until the weight is within the limit.
+This **project** includes functionalities such as calculating the total weight of the items and in case the weight exceeds the set limit, it prioritises the items according to their category until the weight is within the limit. All these functions allow the spacecraft to achieve the minimum requirements to be accessible for launch and to be able to execute the space mission. 
 
 ---
 
@@ -99,12 +99,12 @@ src/
 │   │   │   └── CategoryRepository.java    # JPA repository interface for Category operations
 │   │   │   └── ItemRepository.java        # JPA repository interface for Item operations
 │   │   ├── service/
-│   │   │   └── CalculatorService.java    # Service class containing weight calculation logic
-│   │   │   └── CategoryrService.java     # Service class containing Category business logic
-│   │   │   └── ItemService.java          # Service class containing Item business logic
-│   │   └── SpaceshipApplication.java     # Main class to bootstrap the Spring Boot application
+│   │   │   └── CalculatorService.java     # Service class containing weight calculation logic
+│   │   │   └── CategoryrService.java      # Service class containing Category business logic
+│   │   │   └── ItemService.java           # Service class containing Item business logic
+│   │   └── SpaceshipApplication.java      # Main class to bootstrap the Spring Boot application
 │   └── resources/
-│       ├── application.properties        # Database and application configuration
+│       ├── application.properties         # Database and application configuration
 └── test/
     ├── java/com/example/spaceship/
     │   ├── service/
