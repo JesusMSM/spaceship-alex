@@ -72,11 +72,11 @@ mvn spring-boot:run
 #### With Docker 🐳
 1. Build the Docker image:
 ```
-docker build -t spaceship-alex .
+docker build -t spaceship-backend .
 ```
 2. Run the Docker container:
 ```
-docker run -p 8080:8080 --name spaceship-container spaceship-alex
+docker run -p 8080:8080 --name spaceship-container spaceship-backend
 ```
 ***Note***: *Make sure Docker is installed and running before executing these commands*.
 
