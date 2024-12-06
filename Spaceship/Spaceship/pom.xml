@@ -29,6 +29,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<spring-boot.version>3.3.4</spring-boot.version>
+		<start-class>com.example.Spaceship.SpaceshipApplication</start-class>
 	</properties>
 	<dependencies>
 		
@@ -97,5 +98,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

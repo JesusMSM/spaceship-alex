@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .  # Path where the Dockerfile is located
+      dockerfile: dockerfile
+    image: spaceship-backend  # Name of the application image
+    container_name: spaceship-container # Application container name
+    ports:
+      - "8080:8080" # Map port 8080 of the container to the local port 8080
+    depends_on:
+      - db  # Ensures that the database is started before the app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/spaceship_db
+      SPRING_DATASOURCE_USERNAME: alexuser
+      SPRING_DATASOURCE_PASSWORD: alexpassword
+      DB_Password: ${DB_Password}
+    networks:
+      - spaceship-network
+
+  db:
+    image: postgres:16  # PostgreSQL image name
+    container_name: db  # PostgreSQL container name - follows the name of aplication-docker.properties (db:5432)
+    environment:
+      POSTGRES_USER: alexuser
+      POSTGRES_PASSWORD: alexpassword
+      POSTGRES_DB: spaceship_db
+    ports:
+      - "5432:5432"  # PostgreSQL port exposure (optional for debugging)
+    volumes:
+      - db-data:/var/lib/postgresql/data  # Data persistence
+    networks:
+      - spaceship-network
+
+volumes:
+  db-data:  # Volume to store persistent PostgreSQL data
+
+networks:
+  spaceship-network:
+    driver: bridge
