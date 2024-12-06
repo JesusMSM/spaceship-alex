@@ -76,7 +76,7 @@ docker build -t spaceship-backend .
 ```
 2. Run the Docker container:
 ```
-docker run -p 8080:8080 --name spaceship-container spaceship-backend
+docker run -p 8080:8080 --name spaceship-alex spaceship-backend
 ```
 ***Note***: *Make sure Docker is installed and running before executing these commands*.
 
